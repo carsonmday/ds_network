@@ -1,0 +1,66 @@
+---
+
+switches:
+    children:
+        pb_prpa_switches:
+            hosts:
+                pb_prp_a1:
+                    ansible_host: 10.1.10.31
+                    host_name: pb_prp_a1
+                pb_prp_a2:
+                    ansible_host: 10.1.10.32
+                    host_name: pb_prp_a2
+                pb_prp_a3:
+                    ansible_host: 10.1.10.33
+                    host_name: pb_prp_a3
+                pb_prp_a4:
+                    ansible_host: 10.1.10.34
+                    host_name: pb_prp_a4
+                pb_prp_a5:
+                    ansible_host: 10.1.10.35
+                    host_name: pb_prp_a5
+        prpb_switches:
+            hosts:
+                pb_prp_b1:
+                    ansible_host: 10.1.10.41
+                    host_name: pb_prp_b1
+                pb_prp_b2:
+                    ansible_host: 10.1.10.42
+                    host_name: pb_prp_b2
+                pb_prp_b3:
+                    ansible_host: 10.1.10.43
+                    host_name: pb_prp_b3
+                pb_prp_b4:
+                    ansible_host: 10.1.10.44
+                    host_name: pb_prp_b4
+                pb_prp_b5:
+                    ansible_host: 10.1.10.45
+                    host_name: pb_prp_b5
+        sb_switches:
+            hosts:
+                sb_1:
+                    ansible_host: 10.1.10.51
+                    host_name: sb_1
+                sb_2:
+                    ansible_host: 10.1.10.52
+                    host_name: sb_2
+                sb_3:
+                    ansible_host: 10.1.10.53
+                    host_name: sb_3
+                sb_4:
+                    ansible_host: 10.1.10.54
+                    host_name: sb_4
+                sb_5:
+                    ansible_host: 10.1.10.55
+                    host_name: sb_5
+
+    vars:
+        ansible_connection: ansible.netcommon.network_cli
+        ansible_network_os: cisco.ios.ios
+        ansible_user: "{{ ansible_user }}"
+        ansible_password: "{{ ansible_password }}"
+        ansible_become: true
+        ansible_become_method: enable
+        ansible_become_password: "{{ enable_password }}"
+        ptp_domain: 0  # 0-255
+        ptp_profile: power  # default,power,power-2017

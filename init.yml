@@ -1,12 +1,12 @@
 ---
 
-# Configuration of Home Switches
+# Iniital Configuration of Digital Substation Switches
 # if individual settings are commented out, it's because they are default and do not show in the
 #   running config. They are commented out so that they will not show a "changed" status in the
 #   ansible results. 
 
 - name: Configure Cisco IOS Devices
-  hosts: testswitches
+  hosts: all
   gather_facts: false
   tasks:
 #   This task is for testing to see which switches are being configured
@@ -48,11 +48,12 @@
               re-run this playbook. 
 
     - name: Disabling password recovery (i.e. password recovery requires a system reset)
-      cisco.ios.ios_config:
-        lines: no service password-recovery
-    #   cisco.ios.ios_service:
-    #     config:
-    #       password_recovery: false
+      # cisco.ios.ios_config:
+      #   lines: no service password-recovery
+      cisco.ios.ios_service:
+        config:
+          state: merged
+          password_recovery: false
 
     - name: Create Ansible and main user
       cisco.ios.ios_user:
@@ -85,7 +86,7 @@
         config:
           password_encryption: true
 
-    - name: Ensuring passwords are encrypted
+    - name: Configuring logging timestamps
       cisco.ios.ios_service:
         state: merged
         config:
@@ -95,7 +96,7 @@
               datetime_options:
                 msec: true
                 year: true
-            - msg: log
+            - msg: debug
               timestamp: datetime
               datetime_options:
                 msec: true
