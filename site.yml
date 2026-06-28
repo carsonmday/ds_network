@@ -1,6 +1,6 @@
 ---
 
-# Configuration of Home Switches
+# Configuration of Digital Substation Switches
 # if individual settings are commented out, it's because they are default and do not show in the
 #   running config. They are commented out so that they will not show a "changed" status in the
 #   ansible results. 
@@ -67,7 +67,7 @@
             # update_password: "on_create"
             privilege: 15
             sshkey:
-              - "{{ lookup('file', '~/.ssh/ansible_key.pub') }}"
+              - "{{ lookup('file', './files/ansible_key.pub') }}"
         state: present
     
     - name: Enable the SCP server for remote backups
