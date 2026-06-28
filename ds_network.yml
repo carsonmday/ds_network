@@ -20,6 +20,18 @@
         banner: login
         text: "{{ lookup('file', './files/logon_banner') }}"
 
+    - name: Turn off Console Logging
+      cisco.ios.ios_config:
+        lines:
+          - no logging console
+
+    - name: Turn off VTP, CDP, LLDP
+      cisco.ios.ios_config:
+        lines:
+          - vtp mode off
+          - no cdp run
+          - no lldp run
+
     - name: Create Ansible and main user
       cisco.ios.ios_user:
         name: "ansible"
@@ -30,6 +42,15 @@
         sshkey:
           - "{{ lookup('file', '~/.ssh/ansible_key.pub') }}"
         state: present
+    
+    - name: Enable the SCP server for remote backups
+      cisco.ios.ios_config:
+        lines:
+          - aaa new-model
+          - aaa authentication login default local
+          - aaa authorization exec default local
+          - ip ssh version 2
+          - ip scp server enable
 
     - name: Ensuring passwords are encrypted
       cisco.ios.ios_service:
@@ -66,6 +87,32 @@
           # vlan 1 is default so it does not need to be specified
           # - vlan_id: 1
           #   name: unused_native
+vlan 10
+ name management
+!
+vlan 20
+ name Vlan_20
+!
+vlan 30
+ name Vlan_30
+!
+vlan 40
+ name Vlan_40
+!
+vlan 41
+ name process_bus_B
+!
+vlan 50
+ name Vlan_50
+!
+vlan 60
+ name network_security
+!
+vlan 140
+ name station_bus_A
+!
+vlan 141
+ name station_bus_B
           - vlan_id: 60
             name: pb-prpa
           - vlan_id: 61
