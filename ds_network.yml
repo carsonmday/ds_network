@@ -6,9 +6,13 @@
 #   ansible results. 
 
 - name: Configure Cisco IOS Devices
-  hosts: day_switch
+  hosts: testswitches
   gather_facts: false
   tasks:
+    - name: Working on the following switches
+      ansible.builtin.debug:
+        msg: "{{ host_name }}"
+
     - name: Set switch hostname
       cisco.ios.ios_hostname:
         config:
@@ -16,7 +20,7 @@
 
     - name: Set the logon banner
       cisco.ios.ios_banner:
-        state: replace
+        state: present
         banner: login
         text: "{{ lookup('file', './files/logon_banner') }}"
 
@@ -30,14 +34,14 @@
         lines:
           - vtp mode off
           - no cdp run
-          - no lldp run
+          # - no lldp run   # lldp not shown
 
     - name: Create Ansible and main user
       cisco.ios.ios_user:
         name: "ansible"
         configured_password: "{{ ansible_password }}"
         password_type: "secret"
-        update_password: "on_create"
+        # update_password: "on_create"
         privilege: 15
         sshkey:
           - "{{ lookup('file', '~/.ssh/ansible_key.pub') }}"
@@ -49,7 +53,7 @@
           - aaa new-model
           - aaa authentication login default local
           - aaa authorization exec default local
-          - ip ssh version 2
+          # - ip ssh version 2   # default version of ssh
           - ip scp server enable
 
     - name: Ensuring passwords are encrypted
@@ -75,10 +79,10 @@
                 year: true
 
     - name: Setting the switch as a PTP transparent clock 
-      cisco.ios.ios_command:
-        commands: 
-          - ptp clock transparent domain "{{ ptp_domain }}" profile "{{ ptp_profile }}"
-          - exit
+      cisco.ios.ios_config:
+        lines: 
+          - "ptp clock transparent domain {{ ptp_domain }}  profile {{ ptp_profile }}"
+          # - exit
 
     - name: Creating VLANs
       cisco.ios.ios_vlans:

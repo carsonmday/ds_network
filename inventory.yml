@@ -54,13 +54,13 @@ switches:
                     ansible_host: 10.1.10.55
                     host_name: sb_5
 
-vars:
-    ansible_connection: ansible.netcommon.network_cli
-    ansible_network_os: cisco.ios.ios
-    ansible_user: "{{ ansible_user }}"
-    ansible_password: "{{ ansible_password }}"
-    ansible_become: true
-    ansible_become_method: enable
-    ansible_become_password: "{{ enable_password }}"
-    ptp_domain: 0  # 0-255
-    ptp_profile: power  # default,power,power-2017
+    vars:
+        ansible_connection: ansible.netcommon.network_cli
+        ansible_network_os: cisco.ios.ios
+        ansible_user: "{{ ansible_user }}"
+        ansible_password: "{{ ansible_password }}"
+        ansible_become: true
+        ansible_become_method: enable
+        ansible_become_password: "{{ enable_password }}"
+        ptp_domain: 0  # 0-255
+        ptp_profile: power  # default,power,power-2017
