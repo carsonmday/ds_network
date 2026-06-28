@@ -87,36 +87,18 @@
           # vlan 1 is default so it does not need to be specified
           # - vlan_id: 1
           #   name: unused_native
-vlan 10
- name management
-!
-vlan 20
- name Vlan_20
-!
-vlan 30
- name Vlan_30
-!
-vlan 40
- name Vlan_40
-!
-vlan 41
- name process_bus_B
-!
-vlan 50
- name Vlan_50
-!
-vlan 60
- name network_security
-!
-vlan 140
- name station_bus_A
-!
-vlan 141
- name station_bus_B
+          - vlan_id: 40
+            name: process_bus_a
+          - vlan_id: 41
+            name: process_bus_b
           - vlan_id: 60
             name: pb-prpa
           - vlan_id: 61
             name: pb-prpb
+          - vlan_id: 140
+            name: station_bus_a
+          - vlan_id: 141
+            name: station_bus_b
           - vlan_id: 20
             name: sb-prpa
           - vlan_id: 21
