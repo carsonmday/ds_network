@@ -1,0 +1,33 @@
+---
+
+# Iniital Configuration of Digital Substation Switches
+# if individual settings are commented out, it's because they are default and do not show in the
+#   running config. They are commented out so that they will not show a "changed" status in the
+#   ansible results. 
+
+- name: Configure Cisco IOS Devices
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: Set switch hostname
+      cisco.ios.ios_hostname:
+        config:
+          hostname: "{{ host_name }}"
+
+# Password recovery seems to be disabled by default. Will need to verify 
+    - name: Password recovery information
+      ansible.builtin.debug:
+        msg: |
+          Password recovery will be disabled. 
+          The password can still be reset, but this will 
+              require as factory reset of the switch to do so.
+          If a reset is performed, you will need to re-enable SSH and
+              re-run this playbook. 
+
+    - name: Disabling password recovery (i.e. password recovery requires a system reset)
+      # cisco.ios.ios_config:
+      #   lines: no service password-recovery
+      cisco.ios.ios_service:
+        config:
+          password_recovery: false

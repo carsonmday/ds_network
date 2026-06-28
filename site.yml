@@ -38,18 +38,18 @@
           # - no lldp run   # lldp is off by default
 
 # Password recovery seems to be disabled by default. Will need to verify 
-    - name: Password recovery information
-      ansible.builtin.debug:
-        msg: |
-          Password recovery will be disabled. 
-          The password can still be reset, but this will 
-              require as factory reset of the switch to do so.
-          If a reset is performed, you will need to re-enable SSH and
-              re-run this playbook. 
+    # - name: Password recovery information
+    #   ansible.builtin.debug:
+    #     msg: |
+    #       Password recovery will be disabled. 
+    #       The password can still be reset, but this will 
+    #           require as factory reset of the switch to do so.
+    #       If a reset is performed, you will need to re-enable SSH and
+    #           re-run this playbook. 
 
-    - name: Disabling password recovery (i.e. password recovery requires a system reset)
-      cisco.ios.ios_config:
-        lines: no service password-recovery
+    # - name: Disabling password recovery (i.e. password recovery requires a system reset)
+    #   cisco.ios.ios_config:
+    #     lines: no service password-recovery
     #   cisco.ios.ios_service:
     #     config:
     #       password_recovery: false
@@ -85,7 +85,7 @@
         config:
           password_encryption: true
 
-    - name: Ensuring passwords are encrypted
+    - name: Configuring logging timestamps
       cisco.ios.ios_service:
         state: merged
         config:
@@ -103,8 +103,10 @@
 
     - name: Setting the switch as a PTP transparent clock 
       cisco.ios.ios_config:
+        parents: "ptp clock transparent domain {{ ptp_domain }}  profile {{ ptp_profile }}" 
         lines: 
-          - "ptp clock transparent domain {{ ptp_domain }}  profile {{ ptp_profile }}"
+          - "packet 7"
+          - "vlan 40"
           # - exit
 
     - name: Creating VLANs

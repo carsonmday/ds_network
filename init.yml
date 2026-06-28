@@ -68,10 +68,10 @@
             # update_password: "on_create"
             privilege: 15
             sshkey:
-              - "{{ lookup('file', '~/.ssh/ansible_key.pub') }}"
+              - "{{ lookup('file', './files/ansible_key.pub') }}"
         state: present
     
-    - name: Enable the SCP server for remote backups
+    - name: Enable the SCP server on the switch
       cisco.ios.ios_config:
         lines:
           - aaa new-model
@@ -105,8 +105,9 @@
     - name: Setting the switch as a PTP transparent clock 
       cisco.ios.ios_config:
         lines: 
-          - "ptp clock transparent domain {{ ptp_domain }}  profile {{ ptp_profile }}"
-          # - exit
+          - "packet 7"
+          - "vlan 40"
+        parents: "ptp clock transparent domain {{ ptp_domain }}  profile {{ ptp_profile }}"
 
     - name: Creating VLANs
       cisco.ios.ios_vlans:
