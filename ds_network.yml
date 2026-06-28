@@ -1,0 +1,106 @@
+---
+
+# Configuration of Home Switches
+# if individual settings are commented out, it's because they are default and do not show in the
+#   running config. They are commented out so that they will not show a "changed" status in the
+#   ansible results. 
+
+- name: Configure Cisco IOS Devices
+  hosts: day_switch
+  gather_facts: false
+  tasks:
+    - name: Set switch hostname
+      cisco.ios.ios_hostname:
+        config:
+          hostname: "{{ host_name }}"
+
+    - name: Set the logon banner
+      cisco.ios.ios_banner:
+        state: replace
+        banner: login
+        text: "{{ lookup('file', './files/logon_banner') }}"
+
+    - name: Create Ansible and main user
+      cisco.ios.ios_user:
+        name: "ansible"
+        configured_password: "{{ ansible_password }}"
+        password_type: "secret"
+        update_password: "on_create"
+        privilege: 15
+        sshkey:
+          - "{{ lookup('file', '~/.ssh/ansible_key.pub') }}"
+        state: present
+
+    - name: Ensuring passwords are encrypted
+      cisco.ios.ios_service:
+        state: merged
+        config:
+          password_encryption: true
+
+    - name: Ensuring passwords are encrypted
+      cisco.ios.ios_service:
+        state: merged
+        config:
+          timestamps:
+            - msg: log
+              timestamp: datetime
+              datetime_options:
+                msec: true
+                year: true
+            - msg: log
+              timestamp: datetime
+              datetime_options:
+                msec: true
+                year: true
+
+    - name: Setting the switch as a PTP transparent clock 
+      cisco.ios.ios_command:
+        commands: 
+          - ptp clock transparent domain "{{ ptp_domain }}" profile "{{ ptp_profile }}"
+          - exit
+
+    - name: Creating VLANs
+      cisco.ios.ios_vlans:
+        state: merged
+        config:
+          # vlan 1 is default so it does not need to be specified
+          # - vlan_id: 1
+          #   name: unused_native
+          - vlan_id: 60
+            name: pb-prpa
+          - vlan_id: 61
+            name: pb-prpb
+          - vlan_id: 20
+            name: sb-prpa
+          - vlan_id: 21
+            name: sb-prpb
+          - vlan_id: 10
+            name: management
+          - vlan_id: 40
+            name: ptp
+          - vlan_id: 15
+            name: monitoring
+
+
+    - name: Configuring interface port names
+      cisco.ios.ios_interfaces:
+        state: replaced
+        config: "{{ interface_names }}"
+    
+    - name: Configuring switchport vlan parameters
+      cisco.ios.ios_l2_interfaces:
+        state: replaced
+        config: "{{ switchports }}"
+
+    - name: Configure Logging
+    # used for creating the syslog server for the switch
+    # the commented commands will cause change status every time playbook is run
+      cisco.ios.ios_logging_global:
+        config:
+#          logging_on: enable # causes changed status
+          trap: errors  # making this "informational" will cause a changed status
+          source_interface:
+            - interface: Vlan10 # must start with capital and no space for vlan number.
+          hosts:
+            - host: 10.4.0.1
+        state: merged
