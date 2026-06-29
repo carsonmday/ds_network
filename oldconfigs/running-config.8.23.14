@@ -1,0 +1,449 @@
+
+!
+! Last configuration change at 05:14:26 UTC Sat May 30 2026 by cisco
+!
+version 17.12
+service timestamps debug datetime msec
+service timestamps log datetime msec year
+service password-encryption
+platform punt-keepalive disable-kernel-core
+!
+hostname pb_prp_a1
+!
+!
+no logging console
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name gpc-dsl.day
+!
+!
+!
+login on-success log
+vtp mode off
+vtp version 1
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+ hash sha256
+!
+crypto pki trustpoint TP-self-signed-274845289
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-274845289
+ revocation-check none
+ rsakeypair TP-self-signed-274845289
+ hash sha256
+!
+!
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363 
+  6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934 
+  3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305 
+  43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720 
+  526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 
+  82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D 
+  CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520 
+  1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE 
+  4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC 
+  7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188 
+  68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7 
+  C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191 
+  C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44 
+  DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201 
+  06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85 
+  4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500 
+  03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905 
+  604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B 
+  D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8 
+  467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C 
+  7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B 
+  5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678 
+  80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB 
+  418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0 
+  D697DF7F 28
+  	quit
+crypto pki certificate chain TP-self-signed-274845289
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32373438 34353238 39301E17 0D323431 31303631 34303834 
+  315A170D 33343131 30363134 30383431 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3237 34383435 
+  32383930 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 97BDC873 D1519B1B 05998AF3 30C77FAC C6C9F1B6 9CE53464 E8263D3E 
+  C48AF280 41D9D394 31894E6E 61A6F313 ABEB4472 AB1E7002 E5AD0888 1D143753 
+  97CCA81C 6216D4B4 0A9DFA59 0D9FCBFE 34191A3D 2B43C087 CE46B438 0CCD66C7 
+  5F07AB41 F6A8E441 3019DE94 05B9C9BE F1E6EAC1 789AB234 EB82DB37 71C13A48 
+  3F297D78 B6DF4C0A 974657A3 F75C823B 397E926F 887445D6 7B86742E 6D3AEC66 
+  5617E1AF ADA0B067 3B6A4C85 3BF360B0 2D281A9D 4B360659 62926A03 802DC98F 
+  E585C0AC B8CE748A F31F29FA A760191F 7AA9316D B63BA1D3 62EE660F 95CF25A7 
+  4F692081 2F3629A1 397644E5 E4240F71 D6A01239 118A9E91 C064C588 635EDCB9 
+  75DB2D8F 02030100 01A35330 51301D06 03551D0E 04160414 9A435CAA FEF56D85 
+  E910E76A 2FF09C01 D1449A00 301F0603 551D2304 18301680 149A435C AAFEF56D 
+  85E910E7 6A2FF09C 01D1449A 00300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010B05 00038201 01002CB8 A3B753CA A9613CEE 3770CF6B 
+  B0393476 B009CD4C F8A889AC 1C07175E 37CD318D 06F7543A 75C469DC 260F2B56 
+  C7B599D3 CD788F7E 7B332E4F B7E871B4 915C1483 362559DE 3DECB33F 24E62D83 
+  ABEB43CA 51916016 C613CAD2 BBABE8AA 41A9AC8B 6ADA173C 12EA75BB E8151E4C 
+  C283AB16 A81BCEFD 95815F50 9727EB8C E2D9870F 3F536545 B509A5C6 8DD072F6 
+  793833BA BC8AF347 2194D3A7 93D26551 E2C59432 9DA891BA E4FEEA76 B57F9274 
+  5FA54430 17B439DB E0DFE2FB 45B7330E 88A186D5 4B6822CA 06A11067 9B93360B 
+  EE75199B AE51897B 2AFDB495 D6A0D6BA 0B58113E 3E879EE4 102BE868 31211BC5 
+  D9AEB275 29FAE4FB 43CF56E1 F04D5005 B95D
+  	quit
+!
+!
+license boot level network-advantage
+memory free low-watermark processor 58715
+!
+diagnostic bootup level minimal
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+!
+alarm-profile defaultPort
+ alarm not-operating 
+ syslog not-operating ptp-slave ptp-passive-sla
+ notifies not-operating 
+!
+alarm-profile dsl_alarms
+ alarm link-fault not-forwarding not-operating 
+ syslog link-fault not-forwarding not-operating fcs-error ptp-slave ptp-passive-sla
+!
+alarm facility ptp syslog
+alarm facility sd-card syslog
+!
+enable secret 9 $9$uq1ZUtKdoLVkIU$FQE06c3tbB3VvbXY3TTWpE6LbNNX2ANrXg/mrvRrxEY
+!
+username cisco privilege 15 secret 9 $9$KrpSgvIfN8fLPk$xUj5vH4tlmcns3BDh5MxVdhVcUj7T2Z6jFF7XR6COls
+username ansible privilege 15 secret 9 $9$3fDIV..96B.UI.$Z0NpCOjO11UcHzWSxyfHE8hygUCYJgCQIqnWCysPEoQ
+username network_viewer privilege 3 secret 9 $9$WSZ4Aay7Zhtij.$28Pcn6r6Is6zstPpS1ivHgKvtgMCF5ZAEeUZ8TvSTLI
+!
+redundancy
+ mode sso
+
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+!
+vlan 10
+ name management
+!
+vlan 15
+ name monitoring
+!
+vlan 20
+ name sb-prpa
+!
+vlan 21
+ name sb-prpb
+!
+vlan 30
+ name Vlan_30
+!
+vlan 40
+ name ptp
+!
+vlan 41
+ name process_bus_b
+!
+vlan 50
+ name Vlan_50
+!
+vlan 60
+ name pb-prpa
+!
+vlan 61
+ name pb-prpb
+!
+vlan 140
+ name station_bus_a
+!
+vlan 141
+ name station_bus_b
+no cdp run
+!
+!
+class-map match-any system-cpp-police-ewlc-control
+  description EWLC Control 
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data packets, LOGGING, Transit Traffic
+class-map match-any system-cpp-default
+  description EWLC data, Inter FED Traffic 
+class-map match-any system-cpp-police-sys-data
+  description Openflow, Exception, EGR Exception, NFL Sampled Data, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-high-rate-app
+  description High Rate Applications 
+class-map match-any system-cpp-police-multicast
+  description MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual OOB
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control and Low Latency
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-dhcp-snooping
+  description DHCP snooping
+class-map match-any system-cpp-police-ios-routing
+  description L2 control, Topology control, Routing control, Low Latency
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold Pkt
+class-map match-any system-cpp-police-ios-feature
+  description ICMPGEN,BROADCAST,ICMP,L2LVXCntrl,ProtoSnoop,PuntWebauth,MCASTData,Transit,DOT1XAuth,Swfwd,LOGGING,L2LVXData,ForusTraffic,ForusARP,McastEndStn,Openflow,Exception,EGRExcption,NflSampled,RpfFailed
+!
+policy-map system-cpp-policy
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no ip address
+!
+interface GigabitEthernet1/0/1
+ description "To PB Switch 1"
+ switchport trunk allowed vlan 10,60
+ switchport mode trunk
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/2
+ description "To Lab Switch"
+ switchport trunk allowed vlan 10,41,60,141
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description "Span to Dragos Sensor"
+!
+interface GigabitEthernet1/0/4
+ shutdown
+!
+interface GigabitEthernet1/0/5
+ shutdown
+!
+interface GigabitEthernet1/0/6
+ description "To PTP Clock"
+ switchport access vlan 41
+ switchport mode access
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/7
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/8
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/9
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/10
+ description testing interface
+ switchport access vlan 10
+ switchport trunk allowed vlan 10,20,40
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/11
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/12
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/13
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/14
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/15
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/16
+ description "Relay Management Ports"
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/17
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/18
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/19
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/20
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/21
+ description "Process Bus Ports"
+ switchport access vlan 41
+ speed nonegotiate
+!
+interface GigabitEthernet1/0/22
+ description "Testset and Maintenance Ports on PB"
+ switchport access vlan 41
+ switchport mode access
+!
+interface GigabitEthernet1/0/23
+ description "Testset and Maintenance Ports on PB"
+ switchport access vlan 41
+ switchport mode access
+!
+interface GigabitEthernet1/0/24
+ shutdown
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface AppGigabitEthernet1/0/1
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address dhcp
+!
+interface Vlan41
+ no ip address
+!
+ip http server
+ip http authentication local
+ip http secure-server
+ip forward-protocol nd
+ip ssh bulk-mode 131072
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh pubkey-chain
+  username ansible
+   key-hash ssh-ed25519 0DEF77573B29E9EF3519E1B8EFC4ED33 ansible@gpc-dsl.day
+   key-hash ssh-ed25519 E5B89A0D6997B1F82D0FE877F26FA5BB ansible
+ip scp server enable
+!
+!
+!
+logging trap errors
+logging source-interface Vlan10
+logging host 10.4.0.1
+!
+!
+!
+!
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+banner login 
+!!!!!!!!!!
+Authorized access only to this system.
+If you are not authorized to access this system
+log out now.
+!!!!!!!!!!
+
+!
+line con 0
+ exec-timeout 0 0
+ stopbits 1
+ speed 57600
+line vty 0 4
+ transport input ssh
+line vty 5 15
+ transport input ssh
+!
+!
+monitor session 1 source vlan 10 , 41 , 141
+monitor session 1 destination interface Gi1/0/3
+!
+ptp clock transparent domain 0  profile power
+ packet 7 
+ vlan 40 
+!
+!
+!
+!
+!
+!
+!
+end
